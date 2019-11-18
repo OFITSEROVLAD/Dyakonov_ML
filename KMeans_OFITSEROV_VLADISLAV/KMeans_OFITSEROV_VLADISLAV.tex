@@ -1,0 +1,2136 @@
+
+    
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    \usepackage[breakable]{tcolorbox}
+    \tcbset{nobeforeafter} % prevents tcolorboxes being placing in paragraphs
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{KMeans\_OFITSEROV\_VLADISLAV}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \newcommand{\prompt}[4]{
+        \llap{{\color{#2}[#3]: #4}}\vspace{-1.25em}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{kmeans}{%
+\section{kMeans}\label{kmeans}}
+
+\hypertarget{ux43eux444ux438ux446ux435ux440ux43eux432-ux432ux43bux430ux434ux438ux441ux43bux430ux432}{%
+\subsubsection{Офицеров
+Владислав}\label{ux43eux444ux438ux446ux435ux440ux43eux432-ux432ux43bux430ux434ux438ux441ux43bux430ux432}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{137}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{copy}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{silhouette\PYZus{}score}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics}\PY{n+nn}{.}\PY{n+nn}{pairwise} \PY{k}{import} \PY{n}{pairwise\PYZus{}distances}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{datasets} \PY{k}{import} \PY{n}{make\PYZus{}blobs}
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{162}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{myKMeans}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{s}\PY{p}{)}\PY{p}{:}
+\PY{c+c1}{\PYZsh{}     Функция показа   }
+    \PY{k}{def} \PY{n+nf}{pltshow}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}     Добавление на график центроидов      }
+    \PY{k}{def} \PY{n+nf}{cent}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{centroids}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{o}{*}\PY{n}{centroids}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{colmap}\PY{p}{[}\PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{6} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{marker} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}     Добавление на график объектов }
+    \PY{k}{def} \PY{n+nf}{poin}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{cl}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{,} \PY{n}{edgecolors}\PY{o}{=}\PY{n}{cl}\PY{p}{,} \PY{n}{marker} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        
+\PY{c+c1}{\PYZsh{}    Вспомогатильные переменные     }
+    \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{123}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}    Количество объектов}
+    \PY{n}{n} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{c+c1}{\PYZsh{}     Количество фичей}
+    \PY{n}{m} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{c+c1}{\PYZsh{}     Цветовая гамма:}
+    \PY{n}{colmap} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{c}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{m}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}} 
+\PY{c+c1}{\PYZsh{}     Массив для цвета кажого объекта}
+    \PY{n}{cl} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{}     Визуализация данных}
+    \PY{k}{if} \PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{NUMBER OF CLUSTERS:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Визуализация данных}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{7}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{0.8}\PY{p}{)}
+        \PY{n}{pltshow}\PY{p}{(}\PY{p}{)}
+    
+\PY{c+c1}{\PYZsh{}     Инициализация центроидов}
+\PY{c+c1}{\PYZsh{}     Kmeans++ здесь, это первый центроид случайным образом остальные максимально удаленные от предыдущих}
+    \PY{k}{if} \PY{p}{(}\PY{n}{s} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+        \PY{n}{centroids} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{n}{data}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{n} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}
+        \PY{k}{for} \PY{n}{it} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{k} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+            \PY{n}{distss}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{n}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+            \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                \PY{n}{dist} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{inf}
+                \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{p}{(}\PY{n}{centroids}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{new\PYZus{}dist} \PY{o}{=} \PY{l+m+mi}{0}
+                    \PY{k}{for} \PY{n}{jj} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{m}\PY{p}{)}\PY{p}{:}
+                        \PY{n}{new\PYZus{}dist} \PY{o}{+}\PY{o}{=} \PY{p}{(}\PY{n}{centroids}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{[}\PY{n}{jj}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{data}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{n}{jj}\PY{p}{]}\PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}
+                    \PY{n}{dist} \PY{o}{=} \PY{n+nb}{min}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{new\PYZus{}dist}\PY{p}{)}\PY{p}{,} \PY{n}{dist}\PY{p}{)}
+                \PY{n}{distss}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{dist}
+            \PY{n}{mx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{distss}\PY{p}{)}
+            \PY{n}{centroids}\PY{p}{[}\PY{n}{it} \PY{o}{+} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{distss} \PY{o}{==} \PY{n}{mx}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+\PY{c+c1}{\PYZsh{}         Инициализация случайным образом всех центроидов}
+        \PY{n}{centroids} \PY{o}{=} \PY{p}{\PYZob{}} \PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{:} \PY{n}{data}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{n} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{k}\PY{p}{)} \PY{p}{\PYZcb{}}
+    
+\PY{c+c1}{\PYZsh{}     Визуализация центроидов}
+    \PY{k}{if} \PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Визуализация центроидов}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{cent}\PY{p}{(}\PY{p}{)}
+        \PY{n}{pltshow}\PY{p}{(}\PY{p}{)}
+    
+\PY{c+c1}{\PYZsh{}     Функция для определния кластера для точки }
+    \PY{n}{distances} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{p}{(}\PY{n}{n}\PY{p}{,} \PY{n}{k}\PY{p}{)}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{k}{def} \PY{n+nf}{closest}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{centroids}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+            \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{:}
+                \PY{n+nb}{sum} \PY{o}{=} \PY{l+m+mi}{0}
+                \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{m}\PY{p}{)}\PY{p}{:}
+                    \PY{n+nb}{sum} \PY{o}{+}\PY{o}{=} \PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{n}{l}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{centroids}\PY{p}{[}\PY{n}{j} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{n}{l}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+                \PY{n}{distances}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{)}
+        \PY{n}{closest\PYZus{}center} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{n}{n}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+            \PY{n}{closest\PYZus{}center}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmin}\PY{p}{(}\PY{n}{distances}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}
+            \PY{n}{cl}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{colmap}\PY{p}{[}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{argmin}\PY{p}{(}\PY{n}{distances}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1} \PY{p}{)}\PY{o}{\PYZpc{}} \PY{l+m+mi}{6} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}
+        \PY{k}{return} \PY{n}{closest\PYZus{}center}
+
+\PY{c+c1}{\PYZsh{}    Первое присваивания объектов центроидам}
+    \PY{n}{distribution} \PY{o}{=} \PY{n}{closest}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{centroids}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{}     Визуализация к какому классу относятся объкты после инициализации центроидов}
+    \PY{k}{if} \PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Визуализация к какому классу относятся объкты после инициализации центроидов}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{cent}\PY{p}{(}\PY{p}{)}
+        \PY{n}{poin}\PY{p}{(}\PY{p}{)}
+        \PY{n}{pltshow}\PY{p}{(}\PY{p}{)}
+    
+\PY{c+c1}{\PYZsh{}     Глубокая копия создает новый составной объект, и затем рекурсивно вставляет в него копии объектов, находящихся в оригинале. }
+    \PY{n}{old\PYZus{}centroids} \PY{o}{=} \PY{n}{copy}\PY{o}{.}\PY{n}{deepcopy}\PY{p}{(}\PY{n}{centroids}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}     Функция обновления центроидов}
+    \PY{k}{def} \PY{n+nf}{update}\PY{p}{(}\PY{n}{distr}\PY{p}{,} \PY{n}{data}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{centroids}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{centroids}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{distribution} \PY{o}{==} \PY{n}{i}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+            \PY{n}{centroids}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{distribution} \PY{o}{==} \PY{n}{i}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        \PY{k}{return} \PY{n}{centroids}
+
+\PY{c+c1}{\PYZsh{}     Обновление центроидов}
+    \PY{n}{centroids} \PY{o}{=} \PY{n}{update}\PY{p}{(}\PY{n}{distribution}\PY{p}{,} \PY{n}{data}\PY{p}{)}
+    
+\PY{c+c1}{\PYZsh{}     Визуализация после одного обновления }
+    \PY{k}{if} \PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Визуализация после одного обновления положения центроидов}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{cent}\PY{p}{(}\PY{p}{)}
+        \PY{n}{poin}\PY{p}{(}\PY{p}{)}
+        \PY{n}{pltshow}\PY{p}{(}\PY{p}{)}
+    
+\PY{c+c1}{\PYZsh{}     Обновление точек(так как центроиды сдвинулись)  }
+   
+    \PY{n}{distribution} \PY{o}{=} \PY{n}{closest}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{centroids}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}     Обновление центроидов пока изменения не перстанут происходить или 100 итераций}
+    \PY{n}{n\PYZus{}iter} \PY{o}{=} \PY{l+m+mi}{100}
+    \PY{k}{while} \PY{k+kc}{True} \PY{o+ow}{or} \PY{p}{(}\PY{n}{n\PYZus{}iter} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+        \PY{n}{closest\PYZus{}centroids} \PY{o}{=} \PY{n}{distribution}
+        \PY{n}{centroids} \PY{o}{=} \PY{n}{update}\PY{p}{(}\PY{n}{distribution}\PY{p}{,} \PY{n}{data}\PY{p}{)}
+        \PY{n}{distribution} \PY{o}{=} \PY{n}{closest}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{centroids}\PY{p}{)}
+        \PY{n}{n\PYZus{}iter} \PY{o}{\PYZhy{}}\PY{o}{=} \PY{l+m+mi}{1}
+        \PY{k}{if} \PY{n}{np}\PY{o}{.}\PY{n}{array\PYZus{}equal}\PY{p}{(}\PY{n}{closest\PYZus{}centroids}\PY{p}{,} \PY{n}{distribution}\PY{p}{)}\PY{p}{:}
+            \PY{k}{break}
+
+\PY{c+c1}{\PYZsh{}     Визуализация окончательного результата}
+    \PY{k}{if} \PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Визуализация окончательного результата:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{cent}\PY{p}{(}\PY{p}{)}
+        \PY{n}{poin}\PY{p}{(}\PY{p}{)}
+        \PY{n}{pltshow}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{distribution}\PY{p}{,} \PY{n}{cl}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{186}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Метод логтя для нахождения количества кластеров}
+\PY{k}{def} \PY{n+nf}{elbow\PYZus{}method}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{)}\PY{p}{:}
+    \PY{n}{silh\PYZus{}score} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{a}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{:}
+        \PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Running comput. for}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cluster(s)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{silh\PYZus{}score}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{silhouette\PYZus{}score}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{model}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{a}\PY{p}{,} \PY{n}{b}\PY{p}{)}\PY{p}{,} \PY{n}{silh\PYZus{}score}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{155}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Функция упорядочевания data:}
+\PY{k}{def} \PY{n+nf}{order\PYZus{}data}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{model}\PY{p}{)}\PY{p}{:}
+    \PY{n}{data\PYZus{}clustered} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{n+nb}{int}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{model}\PY{p}{)}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{model}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+            \PY{k}{if}\PY{p}{(}\PY{n}{model}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{==} \PY{n}{i}\PY{p}{)}\PY{p}{:}
+                \PY{n}{data\PYZus{}clustered} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vstack}\PY{p}{(}\PY{p}{(}\PY{n}{data\PYZus{}clustered}\PY{p}{,} \PY{n}{data}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+    \PY{n}{data\PYZus{}clustered} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{delete}\PY{p}{(}\PY{n}{data\PYZus{}clustered}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{)} 
+    \PY{k}{return} \PY{n}{data\PYZus{}clustered}
+
+\PY{c+c1}{\PYZsh{} Функция для визуализации матрицы попарных состояний:}
+\PY{k}{def} \PY{n+nf}{visualization}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Матрица попарных расстояний до упорядочевания:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{7}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{matshow}\PY{p}{(}\PY{n}{pairwise\PYZus{}distances}\PY{p}{(}\PY{n}{data}\PY{p}{)}\PY{p}{,} \PY{n}{aspect}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{auto}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+    \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{7}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{c} \PY{o}{=} \PY{n}{cl\PYZus{}model}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{matshow}\PY{p}{(}\PY{n}{pairwise\PYZus{}distances}\PY{p}{(}\PY{n}{order\PYZus{}data}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{model}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{aspect}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{auto}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{ux43fux435ux440ux432ux44bux439-dataset-s1-ux441ux43aux430ux447ux430ux43d-ux43eux442ux441ux44eux434ux430-httpcs.joensuu.fisipudatasets}{%
+\subsubsection{Первый dataset ``s1'' скачан отсюда:
+http://cs.joensuu.fi/sipu/datasets/}\label{ux43fux435ux440ux432ux44bux439-dataset-s1-ux441ux43aux430ux447ux430ux43d-ux43eux442ux441ux44eux434ux430-httpcs.joensuu.fisipudatasets}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{187}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/Users/ofirserovlad/Desktop/Kaggle/K\PYZhy{}means/s1.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{int}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{ux43eux434ux43dux438ux43c-ux438ux437-ux43cux438ux43dux443ux441ux43eux432-ux434ux430ux43dux43dux43eux433ux43e-ux43cux435ux442ux43eux434ux430-ux44fux432ux43bux44fux435ux442ux441ux44f-ux442ux43e-ux447ux442ux43e-ux43cux44b-ux434ux43eux43bux436ux43dux44b-ux437ux43dux430ux442ux44c-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux43e-ux43aux43bux430ux441ux442ux435ux440ux43eux432-ux437ux430ux440ux430ux43dux435ux435}{%
+\subsubsection{Одним из минусов данного метода является то, что мы
+должны знать количество кластеров
+заранее}\label{ux43eux434ux43dux438ux43c-ux438ux437-ux43cux438ux43dux443ux441ux43eux432-ux434ux430ux43dux43dux43eux433ux43e-ux43cux435ux442ux43eux434ux430-ux44fux432ux43bux44fux435ux442ux441ux44f-ux442ux43e-ux447ux442ux43e-ux43cux44b-ux434ux43eux43bux436ux43dux44b-ux437ux43dux430ux442ux44c-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux43e-ux43aux43bux430ux441ux442ux435ux440ux43eux432-ux437ux430ux440ux430ux43dux435ux435}}
+
+\hypertarget{ux434ux43bux44f-ux43dux430ux445ux43eux436ux434ux435ux43dux438ux44f-ux447ux438ux441ux43bux430-ux43aux43bux430ux441ux442ux435ux440ux43eux432-ux432ux43eux441ux43fux43eux43bux44cux437ux443ux435ux43cux441ux44f-ux43cux435ux442ux43eux434ux43eux43c-ux43bux43eux433ux442ux44f.-ux43cux435ux442ux440ux438ux43aux430-ux434ux430ux43dux43dux43eux433ux43e-ux43cux435ux442ux43eux434ux430-ux43fux43eux43aux430ux437ux44bux432ux430ux435ux442-ux43eux442ux43dux43eux448ux435ux43dux438ux435-ux432ux43dux443ux442ux440ux438ux43aux43bux430ux441ux442ux435ux440ux43dux43eux433ux43e-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux44f-ux43a-ux43cux435ux436ux43aux43bux430ux441ux442ux435ux440ux43dux43eux43cux443-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux44e.-ux442ux430ux43aux438ux43c-ux43eux431ux440ux430ux437ux43eux43c-ux43cux44b-ux43cux43eux436ux435ux43c-ux443ux432ux438ux434ux435ux442ux44c-ux43dux443ux436ux43dux43eux435-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux43e-ux43aux43bux430ux441ux442ux435ux440ux43eux432.}{%
+\subsubsection{Для нахождения числа кластеров воспользуемся ``Методом
+логтя''. Метрика данного метода показывает отношение внутрикластерного
+расстояния к межкластерному расстоянию. Таким образом мы можем
+``увидеть'' нужное количество
+кластеров.}\label{ux434ux43bux44f-ux43dux430ux445ux43eux436ux434ux435ux43dux438ux44f-ux447ux438ux441ux43bux430-ux43aux43bux430ux441ux442ux435ux440ux43eux432-ux432ux43eux441ux43fux43eux43bux44cux437ux443ux435ux43cux441ux44f-ux43cux435ux442ux43eux434ux43eux43c-ux43bux43eux433ux442ux44f.-ux43cux435ux442ux440ux438ux43aux430-ux434ux430ux43dux43dux43eux433ux43e-ux43cux435ux442ux43eux434ux430-ux43fux43eux43aux430ux437ux44bux432ux430ux435ux442-ux43eux442ux43dux43eux448ux435ux43dux438ux435-ux432ux43dux443ux442ux440ux438ux43aux43bux430ux441ux442ux435ux440ux43dux43eux433ux43e-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux44f-ux43a-ux43cux435ux436ux43aux43bux430ux441ux442ux435ux440ux43dux43eux43cux443-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux44e.-ux442ux430ux43aux438ux43c-ux43eux431ux440ux430ux437ux43eux43c-ux43cux44b-ux43cux43eux436ux435ux43c-ux443ux432ux438ux434ux435ux442ux44c-ux43dux443ux436ux43dux43eux435-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux43e-ux43aux43bux430ux441ux442ux435ux440ux43eux432.}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{189}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{elbow\PYZus{}method}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Running comput. for 3 cluster(s)
+Running comput. for 4 cluster(s)
+Running comput. for 5 cluster(s)
+Running comput. for 6 cluster(s)
+Running comput. for 7 cluster(s)
+Running comput. for 8 cluster(s)
+Running comput. for 9 cluster(s)
+Running comput. for 10 cluster(s)
+Running comput. for 11 cluster(s)
+Running comput. for 12 cluster(s)
+Running comput. for 13 cluster(s)
+Running comput. for 14 cluster(s)
+Running comput. for 15 cluster(s)
+Running comput. for 16 cluster(s)
+Running comput. for 17 cluster(s)
+Running comput. for 18 cluster(s)
+Running comput. for 19 cluster(s)
+Running comput. for 20 cluster(s)
+Running comput. for 21 cluster(s)
+Running comput. for 22 cluster(s)
+Running comput. for 23 cluster(s)
+Running comput. for 24 cluster(s)
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{ux446ux435ux43dux442ux440ux43eux438ux434ux44b-ux43eux431ux43eux437ux43dux430ux447ux435ux43dux44b-ux441ux438ux43cux432ux43eux43bux43eux43c-ux432-ux441ux43bux443ux447ux430ux435-ux43fux43bux43eux445ux43eux439-ux432ux438ux434ux438ux43cux43eux441ux442ux438-ux446ux435ux43dux442ux440ux43eux438ux434ux43eux432-ux441ux442ux43eux438ux442-ux443ux43cux435ux43dux44cux448ux438ux442ux44c-ux43fux440ux43eux437ux440ux430ux447ux43dux43eux441ux442ux44c-ux433ux438ux43fux435ux440ux43fux430ux440ux430ux43cux435ux442ux440-alpha-ux432-16-ux441ux442ux440ux43eux43aux435-ux444ux443ux43dux43aux446ux438ux438-mykmeans-ux432-ux432ux438ux437ux443ux430ux43bux438ux437ux430ux446ux438ux438-ux438ux441ux43fux43eux43bux44cux437ux443ux44eux442ux441ux44f-ux442ux43eux43bux44cux43aux43e-6-ux446ux432ux435ux442ux43eux432-ux431ux43eux43bux44cux448ux435ux433ux43e-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux430-ux44fux440ux43aux438ux445-ux446ux432ux435ux442ux43eux432-ux438ux437-matplotlib-ux432ux44bux43dux435ux441ux442ux438-ux44f-ux43dux435-ux441ux43cux43eux433.-ux43dux435-ux441ux442ux43eux438ux442-ux434ux443ux43cux430ux442ux44c-ux447ux442ux43e-ux432ux441ux435-ux43eux431ux44aux435ux43aux442ux44b-ux43eux434ux43dux43eux433ux43e-ux446ux432ux435ux442ux430-ux43fux440ux438ux43dux430ux434ux43bux435ux436ux430ux442-ux43eux434ux43dux43eux43cux443-ux43aux43bux430ux441ux442ux435ux440ux443.-ux43dux430-ux43fux440ux438ux43cux435ux440ux435-ux43dux438ux436ux435-ux442ux43eux43bux44cux43aux43e-ux434ux432ux435-ux43dux438ux436ux43dux438ux445-ux433ux440ux443ux43fux43fux44b-ux442ux43eux447ux435ux43a-ux43eux431ux44aux435ux434ux435ux43dux435ux43dux44b-ux432-ux43eux434ux438ux43d-ux43aux43bux430ux441ux442ux435ux440-ux43dux435ux43fux440ux430ux432ux438ux43bux44cux43dux43e-ux438-ux43eux434ux43dux430-ux433ux440ux443ux43fux43fux430-ux442ux43eux447ux435ux43a-ux440ux430ux437ux431ux438ux442ux430-ux43dux430-ux434ux432ux430-ux43aux43bux430ux441ux442ux435ux440ux430-ux44dux442ux43e-ux441ux432ux44fux437ux430ux43dux43e-ux441-ux442ux435ux43c-ux447ux442ux43e-ux438ux437ux43dux430ux447ux430ux43bux44cux43dux43e-3-ux446ux435ux43dux442ux440ux43eux438ux434ux430-ux431ux44bux43bux438-ux438ux43dux438ux446ux438ux430ux43bux438ux440ux43eux432ux430ux43dux44b-ux43fux43eux447ux442ux438-ux432-ux43eux434ux43dux43eux439-ux442ux43eux447ux43aux435.-ux43cux43eux436ux435ux43c-ux443ux441ux442ux440ux43eux43dux438ux442ux44c-ux442ux430ux43aux438ux435-ux43fux440ux43eux431ux43bux435ux43cux44b-ux43cux435ux442ux43eux434ux43eux43c-ux441-ux43fux43eux43cux43eux449ux44cux44e-ux43aux43eux442ux43eux440ux43eux433ux43e-ux446ux435ux442ux440ux43eux438ux434ux44b-ux438ux43dux438ux446ux438ux430ux43bux438ux437ux438ux440ux443ux44eux442ux441ux44f-ux43dux430-ux43cux430ux43aux441ux438ux43cux430ux43bux44cux43dux43eux43c-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux438-ux434ux440ux443ux433-ux43eux442-ux434ux440ux443ux433ux430}{%
+\subsubsection{Центроиды обозначены символом * \#\#\#\#\# (в случае
+плохой видимости центроидов, стоит уменьшить прозрачность, гиперпараметр
+alpha в 16 строке функции myKMeans) \#\#\# В визуализации используются
+только 6 цветов, большего количества ярких цветов из matplotlib вынести
+я не смог. Не стоит думать, что все объекты одного цвета принадлежат
+одному кластеру. \#\#\# На примере ниже только две нижних группы точек
+объеденены в один кластер неправильно и одна группа точек разбита на два
+кластера, это связано с тем, что изначально 3 центроида были
+инициалированы почти в одной точке. Можем устронить такие проблемы
+методом, с помощью которого цетроиды инициализируются на максимальном
+расстоянии друг от
+друга}\label{ux446ux435ux43dux442ux440ux43eux438ux434ux44b-ux43eux431ux43eux437ux43dux430ux447ux435ux43dux44b-ux441ux438ux43cux432ux43eux43bux43eux43c-ux432-ux441ux43bux443ux447ux430ux435-ux43fux43bux43eux445ux43eux439-ux432ux438ux434ux438ux43cux43eux441ux442ux438-ux446ux435ux43dux442ux440ux43eux438ux434ux43eux432-ux441ux442ux43eux438ux442-ux443ux43cux435ux43dux44cux448ux438ux442ux44c-ux43fux440ux43eux437ux440ux430ux447ux43dux43eux441ux442ux44c-ux433ux438ux43fux435ux440ux43fux430ux440ux430ux43cux435ux442ux440-alpha-ux432-16-ux441ux442ux440ux43eux43aux435-ux444ux443ux43dux43aux446ux438ux438-mykmeans-ux432-ux432ux438ux437ux443ux430ux43bux438ux437ux430ux446ux438ux438-ux438ux441ux43fux43eux43bux44cux437ux443ux44eux442ux441ux44f-ux442ux43eux43bux44cux43aux43e-6-ux446ux432ux435ux442ux43eux432-ux431ux43eux43bux44cux448ux435ux433ux43e-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux430-ux44fux440ux43aux438ux445-ux446ux432ux435ux442ux43eux432-ux438ux437-matplotlib-ux432ux44bux43dux435ux441ux442ux438-ux44f-ux43dux435-ux441ux43cux43eux433.-ux43dux435-ux441ux442ux43eux438ux442-ux434ux443ux43cux430ux442ux44c-ux447ux442ux43e-ux432ux441ux435-ux43eux431ux44aux435ux43aux442ux44b-ux43eux434ux43dux43eux433ux43e-ux446ux432ux435ux442ux430-ux43fux440ux438ux43dux430ux434ux43bux435ux436ux430ux442-ux43eux434ux43dux43eux43cux443-ux43aux43bux430ux441ux442ux435ux440ux443.-ux43dux430-ux43fux440ux438ux43cux435ux440ux435-ux43dux438ux436ux435-ux442ux43eux43bux44cux43aux43e-ux434ux432ux435-ux43dux438ux436ux43dux438ux445-ux433ux440ux443ux43fux43fux44b-ux442ux43eux447ux435ux43a-ux43eux431ux44aux435ux434ux435ux43dux435ux43dux44b-ux432-ux43eux434ux438ux43d-ux43aux43bux430ux441ux442ux435ux440-ux43dux435ux43fux440ux430ux432ux438ux43bux44cux43dux43e-ux438-ux43eux434ux43dux430-ux433ux440ux443ux43fux43fux430-ux442ux43eux447ux435ux43a-ux440ux430ux437ux431ux438ux442ux430-ux43dux430-ux434ux432ux430-ux43aux43bux430ux441ux442ux435ux440ux430-ux44dux442ux43e-ux441ux432ux44fux437ux430ux43dux43e-ux441-ux442ux435ux43c-ux447ux442ux43e-ux438ux437ux43dux430ux447ux430ux43bux44cux43dux43e-3-ux446ux435ux43dux442ux440ux43eux438ux434ux430-ux431ux44bux43bux438-ux438ux43dux438ux446ux438ux430ux43bux438ux440ux43eux432ux430ux43dux44b-ux43fux43eux447ux442ux438-ux432-ux43eux434ux43dux43eux439-ux442ux43eux447ux43aux435.-ux43cux43eux436ux435ux43c-ux443ux441ux442ux440ux43eux43dux438ux442ux44c-ux442ux430ux43aux438ux435-ux43fux440ux43eux431ux43bux435ux43cux44b-ux43cux435ux442ux43eux434ux43eux43c-ux441-ux43fux43eux43cux43eux449ux44cux44e-ux43aux43eux442ux43eux440ux43eux433ux43e-ux446ux435ux442ux440ux43eux438ux434ux44b-ux438ux43dux438ux446ux438ux430ux43bux438ux437ux438ux440ux443ux44eux442ux441ux44f-ux43dux430-ux43cux430ux43aux441ux438ux43cux430ux43bux44cux43dux43eux43c-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux438-ux434ux440ux443ux433-ux43eux442-ux434ux440ux443ux433ux430}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{190}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 15
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_10_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 31.9 s, sys: 268 ms, total: 32.2 s
+Wall time: 32.6 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{191}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 15
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 8.19 s, sys: 31.3 ms, total: 8.22 s
+Wall time: 8.23 s
+\end{Verbatim}
+
+    \hypertarget{ux43dux430-ux43fux440ux438ux43cux435ux440ux435-ux432ux44bux448ux435-ux432ux438ux434ux43dux43e-ux44fux432ux43dux43eux435-ux43fux440ux435ux438ux43cux443ux449ux435ux441ux442ux432ux43e-ux43cux435ux442ux43eux434ux430-c-ux43fux43eux43cux43eux449ux44cux44e-ux43aux43eux442ux43eux440ux43eux433ux43e-ux446ux435ux43dux442ux440ux43eux438ux434ux44b-ux438ux43dux438ux446ux438ux430ux43bux438ux437ux438ux440ux443ux44eux442ux441ux44f-ux442ux430ux43aux438ux43c-ux43eux431ux440ux430ux437ux43eux43c-ux447ux442ux43eux431ux44b-ux43aux430ux436ux434ux44bux439-ux43dux43eux432ux44bux439-ux446ux435ux43dux442ux440ux43eux438ux434-ux43dux430ux445ux43eux434ux438ux43bux441ux44f-ux43dux430-ux43cux430ux43aux441ux438ux43cux430ux43bux44cux43dux43eux43c-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux438-ux43eux442-ux43eux441ux442ux430ux43bux44cux43dux44bux445}{%
+\subsubsection{На примере выше видно явное преимущество метода, c
+помощью которого центроиды инициализируются таким образом, чтобы каждый
+новый центроид находился на максимальном расстоянии от
+остальных}\label{ux43dux430-ux43fux440ux438ux43cux435ux440ux435-ux432ux44bux448ux435-ux432ux438ux434ux43dux43e-ux44fux432ux43dux43eux435-ux43fux440ux435ux438ux43cux443ux449ux435ux441ux442ux432ux43e-ux43cux435ux442ux43eux434ux430-c-ux43fux43eux43cux43eux449ux44cux44e-ux43aux43eux442ux43eux440ux43eux433ux43e-ux446ux435ux43dux442ux440ux43eux438ux434ux44b-ux438ux43dux438ux446ux438ux430ux43bux438ux437ux438ux440ux443ux44eux442ux441ux44f-ux442ux430ux43aux438ux43c-ux43eux431ux440ux430ux437ux43eux43c-ux447ux442ux43eux431ux44b-ux43aux430ux436ux434ux44bux439-ux43dux43eux432ux44bux439-ux446ux435ux43dux442ux440ux43eux438ux434-ux43dux430ux445ux43eux434ux438ux43bux441ux44f-ux43dux430-ux43cux430ux43aux441ux438ux43cux430ux43bux44cux43dux43eux43c-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux438-ux43eux442-ux43eux441ux442ux430ux43bux44cux43dux44bux445}}
+
+    \hypertarget{section}{%
+\subsection{------------}\label{section}}
+
+\hypertarget{ux432ux438ux437ux443ux430ux43bux438ux437ux438ux440ux443ux435ux43c-ux43cux430ux442ux440ux438ux446ux443-ux43fux43eux43fux430ux440ux43dux44bux445-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux439}{%
+\subsubsection{Визуализируем матрицу попарных
+расстояний}\label{ux432ux438ux437ux443ux430ux43bux438ux437ux438ux440ux443ux435ux43c-ux43cux430ux442ux440ux438ux446ux443-ux43fux43eux43fux430ux440ux43dux44bux445-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux439}}
+
+\hypertarget{dataset-ux440ux430ux441ux441ux43cux430ux442ux440ux438ux432ux430ux435ux43cux44bux439-ux43dux430ux43cux438-ux432-ux43dux430ux441ux442ux43eux44fux449ux438ux439-ux43cux43eux43cux435ux43dux442-ux441ux43aux430ux447ux435ux43d-ux438ux437-ux438ux43dux442ux435ux440ux43dux435ux442ux430-ux43fux43eux44dux442ux43eux43cux443-ux43cux430ux442ux440ux438ux446ux430-ux443ux43fux43eux440ux44fux434ux43eux447ux435ux43dux430-ux443ux436ux435-ux438ux437ux43dux430ux447ux430ux43bux44cux43dux43e}{%
+\paragraph{Dataset рассматриваемый нами в настоящий момент скачен из
+интернета, поэтому матрица упорядочена уже
+изначально}\label{dataset-ux440ux430ux441ux441ux43cux430ux442ux440ux438ux432ux430ux435ux43cux44bux439-ux43dux430ux43cux438-ux432-ux43dux430ux441ux442ux43eux44fux449ux438ux439-ux43cux43eux43cux435ux43dux442-ux441ux43aux430ux447ux435ux43d-ux438ux437-ux438ux43dux442ux435ux440ux43dux435ux442ux430-ux43fux43eux44dux442ux43eux43cux443-ux43cux430ux442ux440ux438ux446ux430-ux443ux43fux43eux440ux44fux434ux43eux447ux435ux43dux430-ux443ux436ux435-ux438ux437ux43dux430ux447ux430ux43bux44cux43dux43e}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{192}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{visualization}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{ux440ux430ux441ux441ux43cux43eux442ux440ux438ux43c-ux435ux449ux435-ux43dux435ux441ux43aux43eux43bux44cux43aux43e-sklearn-sampeux43eux432}{%
+\subsubsection{Рассмотрим еще несколько sklearn
+sampe'ов}\label{ux440ux430ux441ux441ux43cux43eux442ux440ux438ux43c-ux435ux449ux435-ux43dux435ux441ux43aux43eux43bux44cux43aux43e-sklearn-sampeux43eux432}}
+
+\hypertarget{ux43fux43eux441ux43cux43eux442ux440ux438ux43c-ux43dux430-ux43cux430ux442ux440ux438ux446ux443-ux43fux43eux43fux430ux440ux43dux44bux445-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux439-ux434ux43e-ux443ux43fux43eux440ux44fux434ux43eux447ux438ux432ux430ux43dux438ux44f-ux438-ux43fux43eux441ux43bux435}{%
+\paragraph{Посмотрим на матрицу попарных расстояний до упорядочивания и
+после}\label{ux43fux43eux441ux43cux43eux442ux440ux438ux43c-ux43dux430-ux43cux430ux442ux440ux438ux446ux443-ux43fux43eux43fux430ux440ux43dux44bux445-ux440ux430ux441ux441ux442ux43eux44fux43dux438ux439-ux434ux43e-ux443ux43fux43eux440ux44fux434ux43eux447ux438ux432ux430ux43dux438ux44f-ux438-ux43fux43eux441ux43bux435}}
+
+\hypertarget{ux43dux430ux439ux434ux435ux43c-ux437ux430ux432ux438ux441ux438ux43cux43eux441ux442ux44c-ux432ux440ux435ux43cux435ux43dux438-ux43eux431ux443ux447ux435ux43dux438ux44f-ux43eux442-ux43eux431ux44aux435ux43cux430-ux438-ux441ux43bux43eux436ux43dux43eux441ux442ux438-ux437ux430ux434ux430ux447ux438}{%
+\paragraph{Найдем зависимость времени обучения от объема и сложности
+задачи}\label{ux43dux430ux439ux434ux435ux43c-ux437ux430ux432ux438ux441ux438ux43cux43eux441ux442ux44c-ux432ux440ux435ux43cux435ux43dux438-ux43eux431ux443ux447ux435ux43dux438ux44f-ux43eux442-ux43eux431ux44aux435ux43cux430-ux438-ux441ux43bux43eux436ux43dux43eux441ux442ux438-ux437ux430ux434ux430ux447ux438}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{193}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{,} \PY{n}{d} \PY{o}{=}  \PY{n}{make\PYZus{}blobs}\PY{p}{(}\PY{n}{n\PYZus{}samples}\PY{o}{=} \PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{n\PYZus{}features}\PY{o}{=} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{centers} \PY{o}{=} \PY{l+m+mi}{3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{194}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{elbow\PYZus{}method}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Running comput. for 2 cluster(s)
+Running comput. for 3 cluster(s)
+Running comput. for 4 cluster(s)
+Running comput. for 5 cluster(s)
+Running comput. for 6 cluster(s)
+Running comput. for 7 cluster(s)
+Running comput. for 8 cluster(s)
+Running comput. for 9 cluster(s)
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{199}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 5
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 2.9 s, sys: 64 ms, total: 2.96 s
+Wall time: 3.07 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{200}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{visualization}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{201}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 5
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 1.98 s, sys: 54.3 ms, total: 2.03 s
+Wall time: 2.11 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{202}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{visualization}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{206}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{,} \PY{n}{d} \PY{o}{=}  \PY{n}{make\PYZus{}blobs}\PY{p}{(}\PY{n}{n\PYZus{}samples}\PY{o}{=} \PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{n\PYZus{}features}\PY{o}{=} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{centers} \PY{o}{=} \PY{l+m+mi}{5}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{211}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{elbow\PYZus{}method}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Running comput. for 2 cluster(s)
+Running comput. for 3 cluster(s)
+Running comput. for 4 cluster(s)
+Running comput. for 5 cluster(s)
+Running comput. for 6 cluster(s)
+Running comput. for 7 cluster(s)
+Running comput. for 8 cluster(s)
+Running comput. for 9 cluster(s)
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{212}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 3
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 1.37 s, sys: 47.1 ms, total: 1.42 s
+Wall time: 1.49 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{209}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{visualization}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{210}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 5
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_26_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_26_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_26_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_26_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_26_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 1.66 s, sys: 55 ms, total: 1.72 s
+Wall time: 1.83 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{213}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{visualization}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_27_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_27_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_27_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_27_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{ux43dux430-ux434ux430ux43dux43dux43eux43c-ux43fux440ux438ux43cux435ux440ux435-ux43fux440ux438-random.seed123-ux43fux43eux43bux443ux447ux430ux435ux442ux441ux44f-ux447ux442ux43e-kmeans-ux440ux430ux431ux43eux442ux430ux435ux442-ux43bux443ux447ux448ux435}{%
+\subsubsection{На данном примере при random.seed(123) получается, что
+kMeans работает
+лучше}\label{ux43dux430-ux434ux430ux43dux43dux43eux43c-ux43fux440ux438ux43cux435ux440ux435-ux43fux440ux438-random.seed123-ux43fux43eux43bux443ux447ux430ux435ux442ux441ux44f-ux447ux442ux43e-kmeans-ux440ux430ux431ux43eux442ux430ux435ux442-ux43bux443ux447ux448ux435}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{224}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{,} \PY{n}{d} \PY{o}{=}  \PY{n}{make\PYZus{}blobs}\PY{p}{(}\PY{n}{n\PYZus{}samples}\PY{o}{=} \PY{l+m+mi}{5000}\PY{p}{,} \PY{n}{n\PYZus{}features}\PY{o}{=} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{centers} \PY{o}{=} \PY{l+m+mi}{5}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{227}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{elbow\PYZus{}method}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Running comput. for 2 cluster(s)
+Running comput. for 3 cluster(s)
+Running comput. for 4 cluster(s)
+Running comput. for 5 cluster(s)
+Running comput. for 6 cluster(s)
+Running comput. for 7 cluster(s)
+Running comput. for 8 cluster(s)
+Running comput. for 9 cluster(s)
+CPU times: user 44.1 s, sys: 903 ms, total: 45 s
+Wall time: 42.8 s
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_30_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{216}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 5
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_31_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_31_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_31_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_31_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_31_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 4.71 s, sys: 111 ms, total: 4.82 s
+Wall time: 5.27 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{217}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 5
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_32_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_32_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_32_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_32_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_32_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 4.26 s, sys: 97.2 ms, total: 4.36 s
+Wall time: 4.68 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{228}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{,} \PY{n}{d} \PY{o}{=}  \PY{n}{make\PYZus{}blobs}\PY{p}{(}\PY{n}{n\PYZus{}samples}\PY{o}{=} \PY{l+m+mi}{30000}\PY{p}{,} \PY{n}{n\PYZus{}features}\PY{o}{=} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{centers} \PY{o}{=} \PY{l+m+mi}{5}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{229}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 5
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_34_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_34_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_34_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_34_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_34_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 19 s, sys: 113 ms, total: 19.2 s
+Wall time: 19.3 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{230}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 5
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_35_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_35_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_35_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_35_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_35_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 16.9 s, sys: 90 ms, total: 17 s
+Wall time: 17.3 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{238}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{,} \PY{n}{d} \PY{o}{=}  \PY{n}{make\PYZus{}blobs}\PY{p}{(}\PY{n}{n\PYZus{}samples}\PY{o}{=} \PY{l+m+mi}{5000}\PY{p}{,} \PY{n}{n\PYZus{}features}\PY{o}{=} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{centers} \PY{o}{=} \PY{l+m+mi}{15}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{239}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 15
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_37_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 27.6 s, sys: 388 ms, total: 28 s
+Wall time: 30.5 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{240}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 15
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 13.6 s, sys: 168 ms, total: 13.8 s
+Wall time: 15 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{241}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{,} \PY{n}{d} \PY{o}{=}  \PY{n}{make\PYZus{}blobs}\PY{p}{(}\PY{n}{n\PYZus{}samples}\PY{o}{=} \PY{l+m+mi}{30000}\PY{p}{,} \PY{n}{n\PYZus{}features}\PY{o}{=} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{centers} \PY{o}{=} \PY{l+m+mi}{15}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{244}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 15
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_40_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_40_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_40_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_40_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_40_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 6min 40s, sys: 2.77 s, total: 6min 43s
+Wall time: 12min 14s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{243}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 15
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 3min 29s, sys: 1 s, total: 3min 30s
+Wall time: 3min 34s
+\end{Verbatim}
+
+    \hypertarget{dataset-birch2-ux441ux43aux430ux447ux430ux43d-ux43eux442ux441ux44eux434ux430-httpcs.joensuu.fisipudatasets}{%
+\subsubsection{dataset ``birch2'' скачан отсюда:
+http://cs.joensuu.fi/sipu/datasets/}\label{dataset-birch2-ux441ux43aux430ux447ux430ux43d-ux43eux442ux441ux44eux434ux430-httpcs.joensuu.fisipudatasets}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{245}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/Users/ofirserovlad/Downloads/birch2.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{int}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{247}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 2
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_44_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_44_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_44_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_44_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_44_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 44.2 s, sys: 336 ms, total: 44.5 s
+Wall time: 44.1 s
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{250}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{model}\PY{p}{,} \PY{n}{cl\PYZus{}model} \PY{o}{=} \PY{n}{myKMeans}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KMeans++}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+NUMBER OF CLUSTERS: 2
+
+
+
+
+Визуализация данных
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_45_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_45_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация к какому классу относятся объкты после инициализации центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_45_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация после одного обновления положения центроидов
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_45_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+
+Визуализация окончательного результата:
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_45_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: user 44 s, sys: 490 ms, total: 44.5 s
+Wall time: 45.6 s
+\end{Verbatim}
+
+    \hypertarget{ux432ux44bux432ux43eux434}{%
+\subsection{Вывод:}\label{ux432ux44bux432ux43eux434}}
+
+\hypertarget{ux43fux440ux43eux430ux43dux430ux43bux438ux437ux438ux440ux43eux432ux430ux432-ux432ux441ux435-ux43fux440ux438ux43cux435ux440ux44b-ux43cux43eux436ux43dux43e-ux441ux43aux430ux437ux430ux442ux44c-ux43e-ux442ux43eux43c-ux447ux442ux43e-kmeans-ux432-ux431ux43eux43bux44cux448ux438ux43dux441ux442ux432ux435-ux43fux440ux438ux43cux435ux440ux43eux432-ux440ux430ux431ux43eux442ux430ux435ux442-ux431ux44bux441ux442ux440ux435ux435-ux43cux43eux436ux435ux442-ux437ux430ux432ux438ux441ux435ux442ux44c-ux43eux442-ux43dux430ux447ux430ux43bux44cux43dux43eux439-ux438ux43dux438ux446ux438ux430ux43bux438ux437ux430ux446ux438ux438-ux438-ux43eux442-ux440ux430ux441ux43fux440ux435ux434ux435ux43bux435ux43dux43dux43eux441ux442ux438-ux434ux430ux43dux43dux44bux445}{%
+\subsubsection{Проанализировав все примеры, можно сказать о том, что
+``kMeans++''" в большинстве примеров работает быстрее (может зависеть от
+начальной инициализации и от распределенности
+данных)}\label{ux43fux440ux43eux430ux43dux430ux43bux438ux437ux438ux440ux43eux432ux430ux432-ux432ux441ux435-ux43fux440ux438ux43cux435ux440ux44b-ux43cux43eux436ux43dux43e-ux441ux43aux430ux437ux430ux442ux44c-ux43e-ux442ux43eux43c-ux447ux442ux43e-kmeans-ux432-ux431ux43eux43bux44cux448ux438ux43dux441ux442ux432ux435-ux43fux440ux438ux43cux435ux440ux43eux432-ux440ux430ux431ux43eux442ux430ux435ux442-ux431ux44bux441ux442ux440ux435ux435-ux43cux43eux436ux435ux442-ux437ux430ux432ux438ux441ux435ux442ux44c-ux43eux442-ux43dux430ux447ux430ux43bux44cux43dux43eux439-ux438ux43dux438ux446ux438ux430ux43bux438ux437ux430ux446ux438ux438-ux438-ux43eux442-ux440ux430ux441ux43fux440ux435ux434ux435ux43bux435ux43dux43dux43eux441ux442ux438-ux434ux430ux43dux43dux44bux445}}
+
+\hypertarget{ux43cux438ux43dux443ux441ux43eux43c-kmeans-like-ux430ux43bux433ux43eux440ux438ux442ux43cux43eux432-ux44fux432ux43bux44fux435ux442ux441ux44f-ux442ux43e-ux447ux442ux43e-ux43eux43dux438-ux43cux43eux433ux443ux442-ux43dux435-ux43dux430ux445ux43eux434ux438ux442ux44c-ux433ux43bux43eux431ux430ux43bux44cux43dux44bux439-ux43cux438ux43dux438ux43cux443ux43c.-ux442ux430ux43aux436ux435-ux43dux443ux436ux43dux43e-ux43dux430ux445ux43eux434ux438ux442ux44c-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux43e-ux43aux43bux430ux441ux442ux435ux440ux43eux432-ux441ux430ux43cux43eux441ux442ux43eux44fux442ux435ux43bux44cux43dux43e.}{%
+\subsubsection{Минусом kMeans-like алгоритмов является то, что они могут
+``не находить глобальный минимум''. Также нужно находить количество
+кластеров
+самостоятельно.}\label{ux43cux438ux43dux443ux441ux43eux43c-kmeans-like-ux430ux43bux433ux43eux440ux438ux442ux43cux43eux432-ux44fux432ux43bux44fux435ux442ux441ux44f-ux442ux43e-ux447ux442ux43e-ux43eux43dux438-ux43cux43eux433ux443ux442-ux43dux435-ux43dux430ux445ux43eux434ux438ux442ux44c-ux433ux43bux43eux431ux430ux43bux44cux43dux44bux439-ux43cux438ux43dux438ux43cux443ux43c.-ux442ux430ux43aux436ux435-ux43dux443ux436ux43dux43e-ux43dux430ux445ux43eux434ux438ux442ux44c-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux43e-ux43aux43bux430ux441ux442ux435ux440ux43eux432-ux441ux430ux43cux43eux441ux442ux43eux44fux442ux435ux43bux44cux43dux43e.}}
+
+\hypertarget{ux43dux430-ux431ux43eux43bux44cux448ux435ux43c-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux435-ux43aux43bux430ux441ux442ux435ux440ux43eux432-ux43fux440ux438-ux442ux43eux43c-ux436ux435-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux435-ux43eux431ux44aux435ux43aux442ux43eux432-ux430ux43bux433ux43eux440ux438ux442ux43c-ux43eux436ux438ux434ux430ux435ux43cux43e-ux440ux430ux431ux43eux442ux430ux435ux442-ux434ux43eux43bux44cux448ux435-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux43e-ux43eux431ux44aux435ux43aux442ux43eux432-ux432ux43bux438ux44fux435ux442-ux442ux430ux43aux436ux435-ux43fux43e-ux43dux430ux43fux440ux430ux432ux43bux435ux43dux438ux44e-ux43dux435ux441ux43aux43eux43bux44cux43aux43e-ux441ux438ux43bux44cux43dux435ux435-ux43fux43e-ux432ux440ux435ux43cux435ux43dux438}{%
+\subsubsection{На большем количестве кластеров при том же количестве
+объектов алгоритм ожидаемо работает дольше; количество объектов влияет
+также ``по направлению'', несколько сильнее ``по
+времени''}\label{ux43dux430-ux431ux43eux43bux44cux448ux435ux43c-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux435-ux43aux43bux430ux441ux442ux435ux440ux43eux432-ux43fux440ux438-ux442ux43eux43c-ux436ux435-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux435-ux43eux431ux44aux435ux43aux442ux43eux432-ux430ux43bux433ux43eux440ux438ux442ux43c-ux43eux436ux438ux434ux430ux435ux43cux43e-ux440ux430ux431ux43eux442ux430ux435ux442-ux434ux43eux43bux44cux448ux435-ux43aux43eux43bux438ux447ux435ux441ux442ux432ux43e-ux43eux431ux44aux435ux43aux442ux43eux432-ux432ux43bux438ux44fux435ux442-ux442ux430ux43aux436ux435-ux43fux43e-ux43dux430ux43fux440ux430ux432ux43bux435ux43dux438ux44e-ux43dux435ux441ux43aux43eux43bux44cux43aux43e-ux441ux438ux43bux44cux43dux435ux435-ux43fux43e-ux432ux440ux435ux43cux435ux43dux438}}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
